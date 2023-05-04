@@ -11,7 +11,12 @@ app.set("view engine", "ejs");
 app.get("/csp", (req, res) => {
     const nonceValue = crypto.randomBytes(16).toString("base64");
     console.log(nonceValue);
-    res.header("Content-Security-Policy", `script-src 'nonce-${nonceValue}'`); // CSPが有効になるためインラインスクリプトが実行されなくなる
+    res.header(
+        "Content-Security-Policy",
+        `script-src 'nonce-${nonceValue}' 'strict-dynamic';` +
+            "object-src 'none';" +
+            "base-uri 'none';" // strict-dynamicを追加することで動的にスクリプト要素を生成することが可能となる
+    ); // CSPが有効になるためインラインスクリプトが実行されなくなる
     res.render("csp", { nonce: nonceValue });
 });
 
