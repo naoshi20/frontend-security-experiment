@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>XSS検証用ページ</title>
+</head>
+
+<body>
+  <h1>XSS検証用ページ</h1>
+  <h2>適切なDOM APIを使った対策</h2>
+  <div id="result"></div>
+  <script>
+    const url = new URL(location.href);
+    const message = url.searchParams.get("message");
+    if (message != null) {
+      // 下記は脆弱性の高いコード
+      // document.querySelector("#result").innerHTML = message;
+      // 下記へアクセスするとエラーメッセージが表示される。
+      // http://localhost:3000/xss.html?message=%3Cimg%20src%20onerror=alert(%27xss%27)%3E
+      // 安全なコードに書き換える
+      const textNode = document.createTextNode(message);
+      console.log(textNode);
+      document.querySelector("#result").appendChild(textNode);
+    }
+  </script>
+  <h2>URLスキームをhttp/httpsに限定する</h2>
+  <a href="#" id="link">リンクをクリック</a>
+  <script>
+    const urlString = url.searchParams.get("url");
+    if (urlString !== null) {
+      const linkUrl = new URL(urlString, url.origin);
+      // 下記は脆弱性の高いコード
+      // document.querySelector("#link").href = urlString;
+      // linkUrl.protocol
+      if (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") {
+        document.querySelector("#link").href = urlString;
+      } else {
+        alert("httpまたはhttpsを入力してください。")
+      }
+    }
+  </script>
+  <h2>XSSを軽減するライブラリ（DOMPurify）を使ってみよう</h2>
+  <script src="./purify.js"></script>
+  <div id="result2"></div>
+  <script>
+    if (message != null) {
+      // XSSの危険性があるコードは無害化してくれる
+      const sanitizedMessage = DOMPurify.sanitize(message);
+      document.querySelector("#result2").innerHTML = sanitizedMessage;
+    }
+  </script>
+</body>
+
+</html>
