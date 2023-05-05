@@ -42,5 +42,19 @@ router.post("/login", (req, res) => {
     res.redirect("/csrf_test.html");
 });
 
+router.post("/remit", (req, res) => {
+    if (
+        !req.session.username ||
+        req.session.username !== sessionData.username
+    ) {
+        res.status(403);
+        res.send("ログインしていません。");
+        return;
+    }
+
+    const { to, amount } = req.body;
+    res.send(`${to}へ${amount}円送金しました`);
+});
+
 // 他のJSからインポートできるようにするためにモジュールをエクスポート
 module.exports = router;
