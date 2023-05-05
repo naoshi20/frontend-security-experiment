@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const express = require("express");
 // const api = require("./routes/api");
+const csrf = require("./routes/csrf");
 const app = express();
 const port = 3000;
 
@@ -19,6 +20,8 @@ app.get("/csp", (req, res) => {
     ); // CSPが有効になるためインラインスクリプトが実行されなくなる
     res.render("csp", { nonce: nonceValue });
 });
+
+app.use("/csrf", csrf);
 
 app.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}`);
