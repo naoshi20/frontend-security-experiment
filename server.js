@@ -5,9 +5,15 @@ const csrf = require("./routes/csrf");
 const app = express();
 const port = 3000;
 
-app.use(express.static("public"));
-
 app.set("view engine", "ejs");
+
+app.use(
+    express.static("public", {
+        setHeaders: (res, path, stat) => {
+            res.header("X-Frame-Options", "SAMEORIGIN");
+        },
+    })
+);
 
 app.get("/csp", (req, res) => {
     const nonceValue = crypto.randomBytes(16).toString("base64");
