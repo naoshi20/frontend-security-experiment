@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode
 
+localhost+1-key.pem
+localhost+1.pem
+
 ### Node ###
 # Logs
 logs

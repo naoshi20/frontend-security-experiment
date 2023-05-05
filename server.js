@@ -23,3 +23,18 @@ app.get("/csp", (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}`);
 });
+
+// TODO: https:/localhost:443でサーバに接続できない。
+const https = require("https");
+const fs = require("fs");
+
+const HTTPS_PORT = 443;
+https
+    .createServer({
+        key: fs.readFileSync("localhost+1-key.pem"),
+        cert: fs.readFileSync("localhost+1.pem"),
+        app,
+    })
+    .listen(HTTPS_PORT, function () {
+        console.log(`Server is running on https://localhost:${HTTPS_PORT}`);
+    });
