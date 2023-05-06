@@ -15,5 +15,5 @@
 }
 
 .signup-input:invalid {
-    background-color: red;
+    background-color: #ffd9d9;
 }
