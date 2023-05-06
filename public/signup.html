@@ -12,13 +12,16 @@
             <legend class="form-caption">アカウント作成</legend>
             <div>
                 <label for="username">メールアドレス</label>
-                <input type="email" name="username" id="username" class="signup-input" required />
+                <input type="email" name="username" id="username" class="signup-input" required autocomplete="email" />
             </div>
             <div>
                 <label for="password">パスワード</label>
                 <input type="password" name="password" id="password" class="signup-input" required
-                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="パスワードには8文字以上の英数字を入力してください" />
+                    autocomplete="new-password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                    title="パスワードには8文字以上の英数字を入力してください" />
             </div>
+            <input type="checkbox" id="password-display-switch"></input>
+            <label for="password-display-switch"><small>パスワードを表示する</small></label>
             <p><small>パスワードには8文字以上の英数字を入力してください。</small></p>
             <button id="submit" type="submit">アカウントを作成</button>
         </fieldset>
@@ -35,6 +38,16 @@
                 password.setCustomValidity("");
             }
         });
+        const passwordDisplaySwitch = document.querySelector("#password-display-switch");
+        passwordDisplaySwitch.addEventListener("change", (event) => {
+            if (passwordDisplaySwitch.checked) {
+                password.type = "text";
+            }
+            else {
+                password.type = "password";
+            }
+            console.log(event);
+        })
     </script>
 </body>
 
