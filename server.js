@@ -29,6 +29,13 @@ app.get("/csp", (req, res) => {
 
 app.use("/csrf", csrf);
 
+app.use(express.urlencoded({ extended: true }));
+app.post("/signup", (req, res) => {
+    console.log(req.body);
+    console.log("test");
+    res.send("アカウント登録しました");
+});
+
 app.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}`);
 });
